@@ -51,6 +51,25 @@ class UI{
         list.appendChild(row);
     }
 
+
+    static clearFields(){
+        let title = document.getElementById('title');
+        let author = document.getElementById('author');
+        let isbn = document.getElementById('isbn');
+
+        title.value = "";
+        author.value = "";
+        isbn.value = "";
+    }
+
+    static deleteBook(e){
+    if(e.classList.contains('delete')){
+        e.parentElement.parentElement.remove();
+
+      }
+    
+    }
+
     
 }
 
@@ -62,11 +81,26 @@ class UI{
 document.addEventListener('DOMContentLoaded', UI.displayBooks);
 //Event: Remove a Book
 
+document.getElementById('book-list').addEventListener('click', (e) =>{
+    UI.deleteBook(e.target);
+});
 
 //Event: Add a Book
 
-var myform = document.querySelector('book-form');
-console.log(myform.childNodes);
-myform.addEventListener("submit", (e) =>{
-   
+var myform = document.getElementById('book-form').addEventListener("submit", (e) =>{
+    e.preventDefault();
+     
+    let title = document.getElementById('title').value;
+    let author = document.getElementById('author').value;
+    let isbn = document.getElementById('isbn').value;
+     
+    let book = new Book(title, author, isbn);
+    
+    //update ui with book added
+    UI.addBookToList(book);
+
+    //clear the ui after adding the book
+    UI.clearFields();
+
 });
+
