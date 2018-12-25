@@ -53,7 +53,11 @@ class UI{
 
     static deleteBook(e){
     if(e.classList.contains('delete')){
+        const tr = e.parentElement.parentElement.children;
+        const isbn = tr[2].innerHTML;
+        Store.removeBook(isbn);
         e.parentElement.parentElement.remove();
+       
       }
     }
 
@@ -92,7 +96,7 @@ class Store{
       else{
           books = JSON.parse(localStorage.getItem('books'));
       }
-       console.log('books')
+       
       return books;
     } 
 
@@ -109,9 +113,10 @@ class Store{
         books.forEach((book, index) =>{
             if(book.isbn === isbn){
                 books.splice(index, 1);
+                localStorage.setItem('books', JSON.stringify(books));
             }
         })
-       localStorage.setItem('books', JSON.stringify(books));
+     
     }
 }
 // Event:Display Books 
@@ -120,6 +125,7 @@ document.addEventListener('DOMContentLoaded', UI.displayBooks);
 
 document.getElementById('book-list').addEventListener('click', (e) =>{
     UI.deleteBook(e.target);
+    console.log(e.target);
 });
 
 //Event: Add a Book
